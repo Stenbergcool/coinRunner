@@ -1,0 +1,9 @@
+version: "3"
+services:
+    coin_maker:
+        build: "./coinmaker"
+        container_name: "coin_maker"
+        ports:
+            - "8080:80"
+        restart:
+            "always"
