@@ -10,7 +10,7 @@ class coinMaker:
     """
     Fetches polygon shapes and randomly creates Latitude and Longitude for Coins
     """
-    def func(geometry, num_points):
+    def create_points_in_polygon(geometry, num_points):
         points = []
         num_pints = num_points + 1
         values = [1] * int(num_pints * 0.85) + [5] * int(num_pints * 0.1) + [10] * int(num_pints * 0.05)
@@ -24,12 +24,13 @@ class coinMaker:
         # Convert points to a JSON array of objects
         point_objs = json.dumps(points)
         return point_objs
+    def insert_into_database():
+        with open('stockholm.geojson') as f:
+            data = geojson.load(f)
+            feature = data['features'][0]  # Access the first feature in the "features" array
+            geometry = shape(feature['geometry'])
+            print("hello")
+            print(p1.create_points_in_polygon(geometry, 10))
 
 p1 = coinMaker
-with open('stockholm.geojson') as f:
-        data = geojson.load(f)
-        feature = data['features'][0]  # Access the first feature in the "features" array
-        geometry = shape(feature['geometry'])
-        print(p1.func(geometry, 10))
-
-print(coin.latitude)
+p1.insert_into_database()
