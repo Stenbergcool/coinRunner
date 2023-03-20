@@ -2,15 +2,6 @@ version: "3"
 networks:
     coinrunner:
 services:
-    coin_maker:
-        build: "./coinmaker"
-        container_name: "coin_maker"
-        ports:
-            - "8080:80"
-        networks:
-            coinrunner:
-        restart:
-            "always"
     mongodb:
         image: "mongo"
         container_name: "mongodb"
@@ -26,5 +17,14 @@ services:
             coinrunner:
         ports:
             - "3000:3000"
+        restart:
+            "always"
+    coin_maker:
+        build: "./coinmaker"
+        container_name: "coin_maker"
+        ports:
+            - "8080:80"
+        networks:
+            coinrunner:
         restart:
             "always"

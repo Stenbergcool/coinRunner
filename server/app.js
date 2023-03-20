@@ -5,15 +5,15 @@ const { MongoWrapper } = require('./classes/mongoWrapper.js');
 let mongoWrapper
 
 async function mongoGetter() {
-  mongoWrapper = await new MongoWrapper("stockholm");
+  mongoWrapper = await new MongoWrapper("mydb");
 };
 
 mongoGetter();
 
 
 app.get('/', async (req, res) => {
-  console.log(mongoWrapper)
-  const allDataPoints = mongoWrapper.find("stockholm")
+  const allDataPoints = await mongoWrapper.find("stockholm")
+  console.log(allDataPoints)
   res.json(allDataPoints)
 })
 
