@@ -1,9 +1,20 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const { MongoWrapper } = require('./classes/mongoWrapper.js');
+let mongoWrapper
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+async function mongoGetter() {
+  mongoWrapper = await new MongoWrapper("stockholm");
+};
+
+mongoGetter();
+
+
+app.get('/', async (req, res) => {
+  console.log(mongoWrapper)
+  const allDataPoints = mongoWrapper.find("stockholm")
+  res.json(allDataPoints)
 })
 
 app.listen(port, () => {

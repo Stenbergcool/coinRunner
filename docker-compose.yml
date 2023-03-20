@@ -9,6 +9,8 @@ services:
             - "8080:80"
         networks:
             coinrunner:
+        restart:
+            "always"
     mongodb:
         image: "mongo"
         container_name: "mongodb"
@@ -16,5 +18,13 @@ services:
             - "27017:27017"
         networks:
             coinrunner:
+        restart:
+            "always"
+    server:
+        build: "./server"
+        networks:
+            coinrunner:
+        ports:
+            - "3000:3000"
         restart:
             "always"

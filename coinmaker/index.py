@@ -4,6 +4,7 @@ import json
 import random
 from shapely.geometry import shape, Point
 import pymongo
+import time
 
 
 
@@ -12,8 +13,11 @@ class coinMaker:
     Fetches polygon shapes and randomly creates Latitude and Longitude for Coins
     """
     def __init__(self):
-        self.client = pymongo.MongoClient()
-        self.db = self.client.mydatabase
+        self.client = pymongo.MongoClient('mongodb://mongodb:27017/mydb')
+        self.db = self.client.mydb
+        print("hello before")
+        self.collection = self.db.create_collection("stockholm")
+        print("hello After")
 
     def create_points_in_polygon(self, geometry, num_points):
         points = []
@@ -27,7 +31,7 @@ class coinMaker:
                 point_obj = {'longitude': point.x, 'latitude': point.y, 'value': values.pop()}
                 points.append(point_obj)
         # Convert points to a JSON array of objects
-        point_objs = json.dumps(points)
+        point_objs = points
         return point_objs
 
     def insert_into_database(self):
@@ -35,8 +39,12 @@ class coinMaker:
             data = geojson.load(f)
             feature = data['features'][0]  # Access the first feature in the "features" array
             geometry = shape(feature['geometry'])
-            print(p1.create_points_in_polygon(geometry, 10))
-            print(self.db)
-
+            data = p1.create_points_in_polygon(geometry, 10)
+            self.collection.insert_many(data)
+            print("hello")
 p1 = coinMaker()
-p1.insert_into_database()
+
+while True:
+    p1.insert_into_database()
+    time.sleep(5)
+    print("After sleep")
