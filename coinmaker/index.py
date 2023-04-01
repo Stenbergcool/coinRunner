@@ -39,11 +39,14 @@ class coinMaker:
             data = self.create_points_in_polygon(geometry, 10)
             self.collection.insert_many(data)
 
+
+
+
 p1 = coinMaker()
 
 while True:
     try:
-        p1.insert_into_database()
+       p1.insert_into_database()
     except Exception as e: print(e)
     print("5 seconds")
     time.sleep(25)
