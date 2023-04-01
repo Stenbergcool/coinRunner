@@ -18,6 +18,8 @@ async function mongoGetter() {
 
 mongoGetter();
 
+const acceptedLocations = ["stockholm", "new york"]
+
 
 app.get('/', async (req, res) => {
   const allDataPoints = await mongoWrapper.find("stockholm")
@@ -34,8 +36,13 @@ app.route('/userinfo/:userid')
 
 app.route('/:location/coins')
   .get( async (req, res) => {
-    const allDataPoints = await mongoWrapper.find("stockholm")
-    res.json(allDataPoints)
+    console.log(req.params.location)
+    if(acceptedLocations.includes(req.params.location)) {
+      const allDataPoints = await mongoWrapper.find(req.params.location)
+      res.json(allDataPoints)
+    } else {
+      res.send("Cannot")
+    }
   })
   .post((req, res) => {
     res.send('new coin')
@@ -45,7 +52,7 @@ app.route('/:location/coins')
   })
 
 
-// Finished
+// Finished but needs token-verification
 app.route('/achivements')
   .get( async (req, res) => {
     const allDataPoints = await mongoWrapper.find("achivements")
