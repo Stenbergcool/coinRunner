@@ -77,7 +77,7 @@ class MongoWrapper {
    */
   async updateOne(collectionName, objectId, update) {
     const collection = await this.getCollection(collectionName);
-    return collection.updateOne({ '_id': ObjectID(objectId._id) }, { $set: update });
+    return collection.updateOne({ '_id': new ObjectID(objectId) }, { $set: update });
   }
 
   /**
@@ -88,7 +88,7 @@ class MongoWrapper {
    */
   async deleteOne(collectionName, deleteObject) {
     const collection = await this.getCollection(collectionName);
-    return collection.deleteOne({ '_id': ObjectID(deleteObject._id) });
+    return collection.deleteOne({ '_id': new ObjectID(deleteObject) });
   }
 
   /**

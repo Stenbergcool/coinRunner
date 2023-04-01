@@ -44,23 +44,31 @@ app.route('/:location/coins')
     res.send('update coin')
   })
 
+
+// Finished
 app.route('/achivements')
   .get( async (req, res) => {
     const allDataPoints = await mongoWrapper.find("achivements")
     res.json(allDataPoints)
   })
-  .put((req, res) => {
-    res.send('new coin')
+  .put(async (req, res) => {
+    console.log(req.body)
+    console.log({name: req.body.name})
+    const allDataPoints = await mongoWrapper.updateOne("achivements", req.body._id, {name: req.body.name})
+    console.log(allDataPoints)
+    res.status(200).send("achivement updated");
   })
   .post(async (req, res) => {
     console.log(req.body)
     const allDataPoints = await mongoWrapper.insertOne("achivements", req.body)
+    console.log(allDataPoints)
     res.status(200).send("achivement inserted");
   })
   .delete(async (req, res) => {
     console.log(req.body)
-    const allDataPoints = await mongoWrapper.insertOne("achivements", req.body)
-    res.status(200).send("achivement inserted");
+    const allDataPoints = await mongoWrapper.deleteOne("achivements", req.body._id)
+    console.log(allDataPoints)
+    res.status(200).send("achivement deleted");
   })
 
 app.get('/allusers', async (req, res) => {
