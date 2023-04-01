@@ -53,8 +53,14 @@ app.route('/achivements')
     res.send('new coin')
   })
   .post(async (req, res) => {
-    const allDataPoints = await mongoWrapper.insertMany("achivements", [{name: "achivement one"}, {name: "achivement two"}, {name: "achivement three"}])
-    res.json(allDataPoints)
+    console.log(req.body)
+    const allDataPoints = await mongoWrapper.insertOne("achivements", req.body)
+    res.status(200).send("achivement inserted");
+  })
+  .delete(async (req, res) => {
+    console.log(req.body)
+    const allDataPoints = await mongoWrapper.insertOne("achivements", req.body)
+    res.status(200).send("achivement inserted");
   })
 
 app.get('/allusers', async (req, res) => {
